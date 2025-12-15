@@ -1,0 +1,236 @@
+/*
+Theme Name: Curator Parent
+Theme URI: 
+Author: The Curator
+Author URI: 
+Description: Theme for www.thecurator.org
+Requires at least: 6.8
+Tested up to: 6.8
+Requires PHP: 5.7
+Version: 
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: curator-parent
+Tags: 
+*/
+
+body .curator-home-block.has-custom-content-position.has-custom-content-position.is-position-top-left .wp-block-cover__inner-container {
+  width: 100% !important;
+  height: 100%;
+}
+
+body .curator-home-block a:link, a:visited {
+  text-decoration: none;
+}
+
+body .curator-home-block a:hover, a:active {
+  text-decoration-color: white;
+  text-decoration: underline;
+}
+
+body .curator-home-block h2 {
+  margin: min(2vw, 24px) min(2vw, 24px) min(2vw, 12px) min(2vw, 24px);
+  font-size: min(1.9vw, 20px);
+}
+
+body .curator-home-block p {
+  margin: 0% min(2vw, 24px);
+  font-size: min(1.3vw, 13.6px);
+  line-height: min(2vw, 21px);
+}
+
+body .curator-home-block a::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+}
+
+/* Styles the sign-up form on the home page */
+.grid-2-column {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: min(1.2vw, 12.6px);
+  background-color: transparent;
+  padding: 0px;
+}
+ 
+/* Styles the sign-up form on the home page */
+.grid-item-2-column-span {
+  grid-column: 1 / span 2;
+}
+
+/* Styles the sign-up form on the home page */
+input[type="text"], input[type="email"] {
+  width: 100%;
+  border-style: solid;
+  border-width: 1.5px;
+  border-radius: min(0.4vw, 4.2px);
+  outline-style: none;
+  font-family: Montserrat, sans-serif;
+  font-size: min(1.3vw, 13.7px);
+  padding: min(0.2vw, 2px);
+  padding-inline-start: min(0.5vw, 5.3px);
+}
+
+/* Styles the sign-up form on the home page */
+input[type="checkbox"] {
+  height: min(1.7vw, 17.9px);
+  width: min(1.7vw, 17.9px);
+  margin: 0px;
+  margin-inline-end: min(1vw, 10.5px);
+}
+
+/* Styles the sign-up form on the home page */
+input[type="submit"] {
+  padding-left: min(1vw, 10.5px);
+  padding-right: min(1vw, 10.5px);
+  padding-top: min(0.5vw, 5.3px);
+  padding-bottom: min(0.5vw, 5.3px);
+  font-size: min(1.3vw, 13.7px);
+  border-radius: min(0.5vw, 5.3px);
+}
+
+/* Styles the sign-up form on the home page */
+.mc-field-group {
+  display: flex;
+  align-items: center;
+  height: min(2.4vw, 25.2px);
+}
+
+/* Styles the sign-up form on the home page */
+.input-group {
+  height: min(1.7vw, 17.9px);
+}
+
+/* Styles the sign-up form on the home page */
+.clear.foot {
+  display: flex;
+}
+
+/* Styles the sign-up form on the home page */
+label {
+  font-size: min(1.3vw, 13.7px);
+}
+
+/* Styles the latest post feature on the home page */
+body .curator-latest-post {
+  border-radius: min(1vw, 10.5px);
+}
+
+/* Styles the latest post feature on the home page */
+body .curator-latest-post p {
+  font-size: min(2vw, 24px);
+  line-height: min(3vw, 36px);
+  color: black;
+}
+
+/* Styles the latest post feature on the home page */
+body .curator-latest-post h2 {
+  font-size: min(1.5vw, 18px);
+  line-height: min(2.3vw, 24px);
+  font-weight: normal;
+  color: black;
+}
+
+
+@media (max-width: 781px) {
+  body .curator-home-block h2 {
+    margin: 4vw 4vw 2vw 4vw;
+    font-size: 3.6vw;
+  }
+  
+  body .curator-home-block p {
+    margin: 0vw 4vw;
+    font-size: 2.5vw;
+    line-height: 4vw;
+  }
+  
+  input[type="text"], input[type="email"] {
+    border-radius: 0.8vw;
+    font-size: 2.5vw;
+    padding-inline-start: 1vw;
+  }
+
+  input[type="checkbox"] {
+    height: 3.4vw;
+    width: 3.4vw;
+    margin: 0px;
+    margin-inline-end: 2vw;
+  }
+
+  input[type="submit"] {
+    padding-left: 2vw;
+    padding-right: 2vw;
+    padding-top: 1vw;
+    padding-bottom: 1vw;
+    font-size: 2.6vw;
+    border-radius: 1vw;
+  }
+
+  .mc-field-group {
+    height: 4.8vw;
+  }
+
+  .input-group {
+    height: 3.4vw;
+  }
+
+  label {
+    font-size: 2.5vw;
+  }
+
+  .grid-2-column {
+    gap: 2.4vw;
+  }
+
+  body .curator-latest-post {
+    border-radius: 0px;
+  }
+   
+  body .curator-latest-post p {
+    font-size: 3.2vw;
+    line-height: 4.6vw;
+  }
+
+  body .curator-latest-post h2 {
+    font-size: 2.6vw;
+    line-height: 4.5vw;
+  }
+
+}
+
+/* Makes the search button smaller */
+.wp-block-search__button {
+  padding: 0.4em 0.7em;
+}
+
+/* Makes the search box smaller and removes the black outline */
+.wp-block-search__input {
+  width: 10em;
+  outline-color: white;
+}
+
+/* Fixes a bug in the row block that causes children's fixed-width preference to be ignored */
+.curator-menu-row > * {
+  flex-shrink: 0;
+}
+
+/* Expands the main menu from mobile to desktop form */
+@media (min-width: 1000px) {
+
+  .wp-block-navigation__responsive-container-open:not(.always-shown) {
+    display: none;
+  }
+
+  .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) {
+      background-color: inherit;
+      display: block;
+      position: relative;
+      width: 100%;
+      z-index: auto;
+  }
+
+}
