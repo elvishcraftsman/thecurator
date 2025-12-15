@@ -19,10 +19,6 @@ body .curator-home-block.has-custom-content-position.has-custom-content-position
   height: 100%;
 }
 
-body {
-  background: red!important;
-}
-
 body .curator-home-block a:link, a:visited {
   text-decoration: none;
 }
