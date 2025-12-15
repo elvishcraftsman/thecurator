@@ -17,6 +17,7 @@ Tags:
 body .curator-home-block.has-custom-content-position.has-custom-content-position.is-position-top-left .wp-block-cover__inner-container {
   width: 100% !important;
   height: 100%;
+  background: red;
 }
 
 body .curator-home-block a:link, a:visited {
