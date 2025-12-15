@@ -20,7 +20,7 @@ body .curator-home-block.has-custom-content-position.has-custom-content-position
 }
 
 body {
-  background: red;
+  background: red!important;
 }
 
 body .curator-home-block a:link, a:visited {
