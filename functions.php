@@ -162,7 +162,9 @@ add_filter (
 function curator_enqueue_styles() {
 	wp_enqueue_style( 
 		'curator-style', 
-		get_stylesheet_uri()
+		get_stylesheet_uri(),
+        [],
+        wp_get_theme()->get('Version')
 	);
 }
 
