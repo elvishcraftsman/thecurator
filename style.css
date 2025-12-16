@@ -218,6 +218,24 @@ body .curator-latest-post h2 {
   flex-shrink: 0;
 }
 
+/* Center header menu */
+div.curator-menu-row {
+  margin: 0px auto;
+}
+.header-subscribe-button {
+  position: absolute;
+  height: 45px;
+  width: 126px;
+  top: var(--wp--preset--spacing--30)auto;
+  right: var(--wp--preset--spacing--30);
+}
+.curator-menu-row .wp-block-search__button-only {
+  margin-right: 0px;
+}
+.curator-menu-row .wp-block-search__button {
+  padding-right: 0px;
+}
+
 /* Expands the main menu from mobile to desktop form */
 @media (min-width: 1000px) {
 
