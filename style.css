@@ -236,6 +236,13 @@ div.curator-menu-row {
   padding-right: 0px;
 }
 
+/* Make header sticky */
+header {
+  position: sticky;
+  top: var(--wp-admin--admin-bar--height, 0px);
+  z-index: 999;
+}
+
 /* Expands the main menu from mobile to desktop form */
 @media (min-width: 1000px) {
 
