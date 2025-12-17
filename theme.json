@@ -144,7 +144,7 @@
 				"css": ""
 			}
 		},
-		"css": "header {\n  position: sticky;\n  top: var(--wp-admin--admin-bar--height, 0px);\n  z-index: 999;\n}",
+		"css": "",
 		"elements": {
 			"button": {
 				"color": {
