@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.6
+Version: 1.0.7
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -208,6 +208,10 @@ body .curator-latest-post cite {
     line-height: min(4.5vw, 24px);
   }
 
+  /* Don't show subscribe button on mobile */
+  .curator-menu-row .wp-block-buttons, header .wp-block-buttons {
+    display: none;
+  }
 }
 
 /* Makes the search button smaller */
