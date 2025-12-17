@@ -31,6 +31,9 @@ body .curator-home-block a:hover, a:active {
 body .curator-home-block h2 {
   margin: min(2vw, 24px) min(2vw, 24px) min(2vw, 12px) min(2vw, 24px);
   font-size: min(1.9vw, 20px);
+  font-weight: bold;
+  letter-spacing: normal;
+  text-transform: none;
 }
 
 body .curator-home-block p {
