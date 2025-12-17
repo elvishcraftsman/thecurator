@@ -230,15 +230,15 @@ body .curator-latest-post cite {
 div.curator-menu-row {
   margin: 0px auto;
 }
-.header-subscribe-button {
+.wp-block-buttons:has(div.wp-block-button.header-subscribe-button) {
   position: absolute;
   height: 45px;
   width: 126px;
-  top: var(--wp--preset--spacing--30)auto;
+  top: var(--wp--preset--spacing--30);
   right: var(--wp--preset--spacing--30);
 }
 .curator-menu-row .wp-block-search__button-only {
-  margin-right: 0px;
+  margin-right: 0px!important;
 }
 .curator-menu-row .wp-block-search__button {
   padding-right: 0px;
@@ -249,6 +249,7 @@ header {
   position: sticky;
   top: var(--wp-admin--admin-bar--height, 0px);
   z-index: 999;
+  background: white;
 }
 
 /* Expands the main menu from mobile to desktop form */
