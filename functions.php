@@ -99,11 +99,15 @@ function curator_latest_post_shortcode( $atts ) {
 
         $excerpt = wpautop( curator_post_excerpt( $post ) );
 
-        $excerpt = str_replace( '<p>', '<p class="has-text-align-center">', $excerpt );
+        $excerpt = str_replace( '<p>', 
+            sprintf( '<blockquote class="has-text-align-center" cite="%1$s">', $post_link ),
+            $excerpt
+        );
+        $excerpt = str_replace( '</p>', '</blockquote>', $excerpt );
     
-        $excerpt .= sprintf('<h2 class="has-text-align-center">
-                %1$s by %2$s
-            </h2>',
+        $caption = sprintf('<figcaption class="has-text-align-center">
+                <cite>"%1$s"</cite> by %2$s
+            </figcaption>',
             $title,
             $author
         );
@@ -119,7 +123,10 @@ function curator_latest_post_shortcode( $atts ) {
 
         $output .= '<div class="wp-block-cover__inner-container">';
 
+        $output .= '<figure>';
         $output .= $excerpt;
+        $output .= $caption;
+        $output .= '</figure>';
 
         $output .= '<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-1 wp-block-buttons-is-layout-flex">
             <div class="wp-block-button">';
