@@ -8,7 +8,7 @@
 
 
 /**
- * Custom post excerpt function using PHP's DOM API
+ * Custom function to fetch post attributes by id or tag
  */
 function get_post_element_content ( $post, $id, $fallback_tag ) {
 
@@ -73,11 +73,6 @@ function curator_latest_post_shortcode( $atts ) {
 
     foreach ( $posts as $post ) {
 		$post_link = esc_url( get_permalink( $post ) );
-		$title     = get_the_title( $post );
-
-		if ( ! $title ) {
-			$title = __( '(no title)' );
-		}
 
         $image_id = get_post_thumbnail_id( $post );
 
@@ -153,7 +148,7 @@ add_shortcode( 'curator_latest_post', 'curator_latest_post_shortcode' );
 
 
 /**
- *  Remove the arrow added by astra to "Read more" links
+ *  Change the "Read more" links
  */
 add_filter (
     'the_content_more_link',
