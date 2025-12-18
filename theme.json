@@ -29,6 +29,16 @@
 					"color": "#39514f",
 					"name": "Curator Green Hover",
 					"slug": "custom-curator-green-hover"
+				},
+				{
+					"color": "#9f9f9f",
+					"name": "Curator Gray",
+					"slug": "custom-curator-gray"
+				},
+				{
+					"color": "#dfdfdf",
+					"name": "Curator Light Gra",
+					"slug": "custom-curator-light-gra"
 				}
 			]
 		},
