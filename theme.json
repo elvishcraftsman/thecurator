@@ -116,25 +116,33 @@
 				{
 					"fontFace": [
 						{
-							"fontFamily": "Lusitana",
+							"fontFamily": "\"Libre Baskerville\"",
 							"fontStyle": "normal",
 							"fontWeight": "400",
 							"src": [
-								"file:./assets/fonts/lusitana/lusitana-400-normal.woff2"
+								"file:./assets/fonts/libre-baskerville/libre-baskerville-400-normal.woff2"
 							]
 						},
 						{
-							"fontFamily": "Lusitana",
+							"fontFamily": "\"Libre Baskerville\"",
 							"fontStyle": "normal",
 							"fontWeight": "700",
 							"src": [
-								"file:./assets/fonts/lusitana/lusitana-700-normal.woff2"
+								"file:./assets/fonts/libre-baskerville/libre-baskerville-700-normal.woff2"
+							]
+						},
+						{
+							"fontFamily": "\"Libre Baskerville\"",
+							"fontStyle": "italic",
+							"fontWeight": "400",
+							"src": [
+								"file:./assets/fonts/libre-baskerville/libre-baskerville-400-italic.woff2"
 							]
 						}
 					],
-					"fontFamily": "Lusitana, serif",
-					"name": "Lusitana",
-					"slug": "lusitana"
+					"fontFamily": "\"Libre Baskerville\", serif",
+					"name": "Libre Baskerville",
+					"slug": "libre-baskerville"
 				}
 			],
 			"fontSizes": []
@@ -212,7 +220,7 @@
 			}
 		},
 		"typography": {
-			"fontFamily": "var(--wp--preset--font-family--lusitana)"
+			"fontFamily": "var(--wp--preset--font-family--libre-baskerville)"
 		}
 	},
 	"templateParts": [
