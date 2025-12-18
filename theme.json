@@ -135,7 +135,12 @@
 		"blocks": {
 			"core/button": {
 				"border": {
-					"radius": "10px"
+					"radius": {
+						"bottomLeft": "6px",
+						"bottomRight": "6px",
+						"topLeft": "6px",
+						"topRight": "6px"
+					}
 				},
 				"spacing": {
 					"padding": {
