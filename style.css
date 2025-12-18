@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.8
+Version: 1.0.13
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -274,4 +274,28 @@ header {
       z-index: auto;
   }
 
+}
+
+/* Style poem blocks on the reading page */
+body .curator-reading-poem-block h2 {
+  font-weight: bold;
+  font-size: large;
+  letter-spacing: normal;
+  text-transform: none;
+}
+body .curator-reading-poem-block h3 {
+  margin-bottom: 10px;
+  font-weight: normal;
+  font-style: italic;
+  font-size: x-small;
+}
+body .curator-reading-poem-block h6 {
+  margin-bottom: 10px;
+  font-weight: normal;
+  font-style: italic;
+  font-size: x-small;
+}
+body .curator-reading-poem-block p {
+  font-size: x-small;
+  line-height: 1.5;
 }
