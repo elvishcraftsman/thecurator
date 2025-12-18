@@ -36,7 +36,7 @@
 					"slug": "custom-curator-gray"
 				},
 				{
-					"color": "#dfdfdf",
+					"color": "#f4f4f4",
 					"name": "Curator Light Gra",
 					"slug": "custom-curator-light-gra"
 				}
@@ -195,6 +195,8 @@
 			"h1": {
 				"typography": {
 					"fontSize": "var(--wp--preset--font-size--x-large)",
+					"fontStyle": "normal",
+					"fontWeight": "400",
 					"letterSpacing": "1.5px",
 					"textTransform": "uppercase"
 				}
