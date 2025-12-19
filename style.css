@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.13
+Version: 1.0.14
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -52,7 +52,7 @@ body .curator-home-block a::before {
   bottom: 0;
 }
 
-/* Styles the sign-up form on the home page */
+/* Style the sign-up forms */
 .grid-2-column {
   display: grid;
   grid-template-columns: auto auto;
@@ -60,13 +60,16 @@ body .curator-home-block a::before {
   background-color: transparent;
   padding: 0px;
 }
- 
-/* Styles the sign-up form on the home page */
+.grid-4-column {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  gap: min(1.2vw, 12.6px);
+  background-color: transparent;
+  padding: 0px;
+}
 .grid-item-2-column-span {
   grid-column: 1 / span 2;
 }
-
-/* Styles the sign-up form on the home page */
 input[type="text"], input[type="email"] {
   width: 100%;
   border-style: solid;
@@ -78,16 +81,12 @@ input[type="text"], input[type="email"] {
   padding: min(0.2vw, 2px);
   padding-inline-start: min(0.5vw, 5.3px);
 }
-
-/* Styles the sign-up form on the home page */
 input[type="checkbox"] {
   height: min(1.7vw, 17.9px);
   width: min(1.7vw, 17.9px);
   margin: 0px;
   margin-inline-end: min(1vw, 10.5px);
 }
-
-/* Styles the sign-up form on the home page */
 input[type="submit"] {
   padding-left: min(1vw, 10.5px);
   padding-right: min(1vw, 10.5px);
@@ -96,25 +95,17 @@ input[type="submit"] {
   font-size: min(1.3vw, 13.7px);
   border-radius: min(0.5vw, 5.3px);
 }
-
-/* Styles the sign-up form on the home page */
 .mc-field-group {
   display: flex;
   align-items: center;
   height: min(2.4vw, 25.2px);
 }
-
-/* Styles the sign-up form on the home page */
 .input-group {
   height: min(1.7vw, 17.9px);
 }
-
-/* Styles the sign-up form on the home page */
 .clear.foot {
   display: flex;
 }
-
-/* Styles the sign-up form on the home page */
 label {
   font-family: Montserrat, sans-serif;
   font-size: min(1.3vw, 13.7px);
