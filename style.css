@@ -338,3 +338,9 @@ body .curator-reading-poem-block p {
   }
 
 }
+
+/* Style custom carousel block from Carousel Slider Block plugin */
+.cb-carousel-block {
+  --wp--custom--carousel-block--navigation-color: var(--wp--preset--color--custom-curator-light-gra);
+  --wp--custom--carousel-block--navigation-hover-color: white;
+}
