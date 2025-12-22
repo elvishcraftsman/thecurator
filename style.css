@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.19
+Version: 1.0.20
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -59,13 +59,12 @@ body .curator-home-block a::before {
   gap: min(1.2vw, 12.6px);
   background-color: transparent;
   padding: 0px;
-}
-.grid-4-column {
-  display: grid;
-  grid-template-columns: auto auto auto auto;
-  gap: min(1.2vw, 12.6px);
-  background-color: transparent;
-  padding: 0px;
+
+  @media (max-width: 781px) {
+    &.grid-stack-on-mobile {
+      grid-template-columns: auto;
+    }
+  }
 }
 .grid-item-2-column-span {
   grid-column: 1 / span 2;
