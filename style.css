@@ -7,49 +7,91 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.20
+Version: 1.0.38
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
 Tags: 
 */
 
-body .curator-home-block.has-custom-content-position.has-custom-content-position.is-position-top-left .wp-block-cover__inner-container {
-  width: 100% !important;
-  height: 100%;
+
+/* Transform the last link in the block to apply to the entire block */
+body .curator-link-block {
+  position: relative;
+
+  &:hover {
+    outline: 2px solid gray;
+
+    h2, h3, p {
+      text-decoration: underline;
+    }
+  }
+
+  *:has(> a):last-of-type {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    margin: 0 !important;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    color: transparent;
+    background: transparent;
+
+    &:hover {
+      background-color: #00000020;
+    }
+
+    a {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+      color: transparent;
+      background: transparent;
+    }
+    
+  }
+
+  &.has-custom-content-position.has-custom-content-position.is-position-top-left .wp-block-cover__inner-container {
+    width: 100% !important;
+    height: 100%;
+  }
+
 }
 
-body .curator-home-block a:link, a:visited {
-  text-decoration: none;
-}
+/* Style children to use dimensions relative to container width */
+body .curator-home-column {
+  container-type: inline-size;
 
-body .curator-home-block a:hover, a:active {
-  text-decoration-color: white;
-  text-decoration: underline;
-}
+  .curator-home-block {
+    border-radius: 2.5cqi;
 
-body .curator-home-block h2 {
-  margin: min(2vw, 24px) min(2vw, 24px) min(2vw, 12px) min(2vw, 24px);
-  font-size: min(1.9vw, 20px);
-  font-weight: bold;
-  letter-spacing: normal;
-  text-transform: none;
-}
+    &.has-custom-content-position.has-custom-content-position.is-position-top-left .wp-block-cover__inner-container {
+      width: 100% !important;
+      height: 100%;
+    }
 
-body .curator-home-block p {
-  margin: 0% min(2vw, 24px);
-  font-family: Montserrat, sans-serif;
-  font-size: min(1.3vw, 13.6px);
-  line-height: min(2vw, 21px);
-}
+    h2, h3 {
+      margin: 5cqi 5cqi 2.5cqi 5cqi;
+      font-size: max(15px, 4cqi);
+      font-weight: bold;
+    }
 
-body .curator-home-block a::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
+    p {
+      margin: 0% 5cqi;
+      font-family: Montserrat, sans-serif;
+      font-size: max(10px, 3cqi);
+      line-height: 160%;
+    }
+
+    div#mc_embed_shell {
+      margin: 0% 5cqi;
+    }
+  }
 }
 
 /* Style the sign-up forms */
@@ -73,12 +115,12 @@ input[type="text"], input[type="email"] {
   width: 100%;
   border-style: solid;
   border-width: 1.5px;
-  border-radius: min(0.4vw, 4.2px);
+  border-radius: 0.4em;
   outline-style: none;
   font-family: Montserrat, sans-serif;
   font-size: min(1.3vw, 13.7px);
-  padding: min(0.2vw, 2px);
-  padding-inline-start: min(0.5vw, 5.3px);
+  padding: 0.15em;
+  padding-inline-start: 0.4em;
 }
 input[type="checkbox"] {
   height: min(1.7vw, 17.9px);
@@ -87,12 +129,9 @@ input[type="checkbox"] {
   margin-inline-end: min(1vw, 10.5px);
 }
 input[type="submit"] {
-  padding-left: min(1vw, 10.5px);
-  padding-right: min(1vw, 10.5px);
-  padding-top: min(0.5vw, 5.3px);
-  padding-bottom: min(0.5vw, 5.3px);
+  padding: 0.38em 0.76em;
   font-size: min(1.3vw, 13.7px);
-  border-radius: min(0.5vw, 5.3px);
+  border-radius: 0.38em;
 }
 .mc-field-group {
   display: flex;
@@ -138,21 +177,9 @@ body .curator-latest-post cite {
 }
 
 @media (max-width: 781px) {
-  body .curator-home-block h2 {
-    margin: 4vw 4vw 2vw 4vw;
-    font-size: 3.6vw;
-  }
-  
-  body .curator-home-block p {
-    margin: 0vw 4vw;
-    font-size: 2.5vw;
-    line-height: 4vw;
-  }
   
   input[type="text"], input[type="email"] {
-    border-radius: 0.8vw;
     font-size: 2.5vw;
-    padding-inline-start: 1vw;
   }
 
   input[type="checkbox"] {
@@ -163,12 +190,7 @@ body .curator-latest-post cite {
   }
 
   input[type="submit"] {
-    padding-left: 2vw;
-    padding-right: 2vw;
-    padding-top: 1vw;
-    padding-bottom: 1vw;
     font-size: 2.6vw;
-    border-radius: 1vw;
   }
 
   .mc-field-group {
@@ -288,54 +310,6 @@ body .curator-reading-poem-block h6 {
 body .curator-reading-poem-block p {
   font-size: x-small;
   line-height: 1.5;
-}
-
-/* Transform the last link in the block to apply to the entire block */
-.curator-link-block {
-  position: relative;
-
-  &:hover {
-    outline: 2px solid gray;
-
-    h2, h3, p {
-      text-decoration: underline;
-    }
-  }
-
-  *:has(> a):last-of-type {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: inherit;
-    color: transparent;
-    background: transparent;
-
-    &:hover {
-      background-color: #00000020;
-    }
-
-    a {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: inherit;
-      color: transparent;
-      background: transparent;
-    }
-    
-  }
-
-  &.has-custom-content-position.has-custom-content-position.is-position-top-left .wp-block-cover__inner-container {
-    width: 100% !important;
-    height: 100%;
-  }
-
 }
 
 /* Style custom carousel block from Carousel Slider Block plugin */
