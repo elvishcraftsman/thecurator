@@ -148,6 +148,93 @@ add_shortcode( 'curator_latest_post', 'curator_latest_post_shortcode' );
 
 
 /**
+ * Define custom rendering function for post excerpt block
+ */
+function curator_render_excerpt_block($attributes, $content, $block) {
+    if (!isset($block->context['postId'])) {
+		return '';
+	}
+
+    $post = get_post($block->context['postId']);
+    
+    $content = $post->post_content;
+    
+    $content = preg_replace('#<!--.*-->#', '', $content);
+    $content = str_replace('<h6', '<p><i', $content);
+    $content = str_replace('</h6>', '</i></p>', $content);
+    $content = str_replace('<h2', '<h3', $content);
+    $content = str_replace('</h2>', '</h3>', $content);
+
+    $content = wpautop($content);
+
+    $excerpt_length = $attributes['excerptLength'];
+    if (!isset($excerpt_length)) $excerpt_length = 4;
+    $excerpt_length += 2;
+
+	$classes = array();
+	if (isset($attributes['textAlign'])) {
+		$classes[] = 'has-text-align-' . $attributes['textAlign'];
+	}
+	if (isset($attributes['style']['elements']['link']['color']['text'])) {
+		$classes[] = 'has-link-color';
+	}
+	$wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+
+	$output = '';
+
+    $lines = 0;
+    $length = strlen($content) - 2;
+
+    for ($i = 0; $i < $length; $i++) {
+        if ($content[$i] == '<') {
+            switch (substr($content, $i, 3)) {
+                case '<h1':
+                case '<h2':
+                case '<h3':
+                case '<h4':
+                case '<h5':
+                case '<h6':
+                case '<br':
+                    $lines++;
+                    break;
+                case '<p ':
+                case '<p>':
+                case '<li':
+                    $lines += 2;
+                    break;
+                case '<hr':
+                case '<di':
+	                $output = '<div ' . $wrapper_attributes . '>';
+                    $output .= substr($content, 0, $i);
+                    $output .= '</div>';
+                    return $output;
+                    break;
+            }
+        }
+        if ($excerpt_length - $lines < 2) {
+            $output = substr($content, 0, $i);
+        }
+        if ($lines > $excerpt_length) {
+            break;
+        }
+    }
+
+    $output = '<div ' . $wrapper_attributes . '>' . $output;
+    $output .= '<p><a href="' . esc_url(get_permalink($post)) . '">Read More</a></p>';
+    $output .= '</div>';
+
+    return $output;
+}
+
+add_filter('register_block_type_args', function ($args, $block_type) {
+    if ($block_type == 'core/post-excerpt') {
+        $args['render_callback'] = 'curator_render_excerpt_block';
+    }
+    return $args;
+}, null, 3);
+
+
+/**
  *  Change the "Read more" links
  */
 add_filter (
