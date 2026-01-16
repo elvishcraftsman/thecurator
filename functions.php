@@ -149,6 +149,7 @@ add_shortcode( 'curator_latest_post', 'curator_latest_post_shortcode' );
 
 /**
  * Define custom rendering function for post excerpt block
+ * Uses the excerptLength field to determine the number of lines to display
  */
 function curator_render_excerpt_block($attributes, $content, $block) {
     if (!isset($block->context['postId'])) {
@@ -219,6 +220,17 @@ function curator_render_excerpt_block($attributes, $content, $block) {
         }
     }
 
+    $output = curator_autop_poem($output);
+    $output = str_replace('<h2', '<h3', $output);
+    $output = str_replace('</h2>', '</h3>', $output);
+    $content = str_replace('<p>', '<p></p><p class="poem-line">', $content);
+    $content = preg_replace('#<br\s?/?>#', '</p><p class="poem-line">', $content);
+
+    $pos = strpos($content, '<p></p><p class="poem-line"><i');
+    if ($pos !== false) {
+        $content = substr_replace($content, '<p><i', $pos, 30);
+    }
+
     $output = '<div ' . $wrapper_attributes . '>' . $output;
     $output .= '<p><a href="' . esc_url(get_permalink($post)) . '">Read More</a></p>';
     $output .= '</div>';
@@ -232,6 +244,49 @@ add_filter('register_block_type_args', function ($args, $block_type) {
     }
     return $args;
 }, null, 3);
+
+
+/** 
+ * Modify weekly poem posts so that each line is a separate paragraph, which is needed
+ * for proper indentation
+ */
+function curator_autop_poem($content) {
+
+    $credits = '';
+    $poem_end = strpos($content, '<hr');
+    if ($poem_end !== false) {
+        $credits = substr($content, $poem_end);
+        $content = substr($content, 0, $poem_end);
+    }
+
+    $content = preg_replace('#<!--\s?.*\s?-->#', '', $content);
+    $content = str_replace('<h6', '<p><i', $content);
+    $content = str_replace('</h6>', '</i></p>', $content);
+
+    $content = wpautop($content);
+
+    $content = str_replace('<p>', '<p></p><p class="poem-line">', $content);
+    $content = preg_replace('#<br\s?/?>#', '</p><p class="poem-line">', $content);
+
+    $pos = strpos($content, '<p></p><p class="poem-line"><i');
+    if ($pos !== false) {
+        $content = substr_replace($content, '<p><i', $pos, 30);
+    }
+
+    return $content . $credits;
+}
+
+add_filter(
+    'the_content',
+    function ($content) {
+        foreach (get_the_category() as $category) {
+            if ($category->slug == 'weekly-poems') {
+                return curator_autop_poem($content);
+            }
+        }
+        return $content;
+    }
+);
 
 
 /**
