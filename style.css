@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.46
+Version: 1.0.49
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -219,10 +219,6 @@ body .curator-latest-post cite {
     font-size: min(2.6vw, 0.75rem);
   }
 
-  /* Don't show subscribe button on mobile */
-  .curator-menu-row .wp-block-buttons, header .wp-block-buttons {
-    display: none;
-  }
 }
 
 /* Makes the search button smaller */
@@ -241,24 +237,6 @@ body .curator-latest-post cite {
   flex-shrink: 0;
 }
 
-/* Center header menu */
-div.curator-menu-row {
-  margin: 0px auto;
-}
-.wp-block-buttons:has(div.wp-block-button.header-subscribe-button) {
-  position: absolute;
-  height: 45px;
-  width: 126px;
-  top: var(--wp--preset--spacing--30);
-  right: var(--wp--preset--spacing--30);
-}
-.curator-menu-row .wp-block-search__button-only {
-  margin-right: 0px!important;
-}
-.curator-menu-row .wp-block-search__button {
-  padding-right: 0px;
-}
-
 /* Make header sticky */
 header {
   position: sticky;
@@ -268,13 +246,14 @@ header {
 }
 
 /* Expands the main menu from mobile to desktop form */
-@media (min-width: 1000px) {
+@media (min-width: 970px) {
 
-  .wp-block-navigation__responsive-container-open:not(.always-shown) {
+  .wp-block-navigation__responsive-container-open,
+  .wp-block-navigation__responsive-container-close {
     display: none;
   }
 
-  .wp-block-navigation__responsive-container:not(.hidden-by-default):not(.is-menu-open) {
+  .wp-block-navigation__responsive-container:not(.is-menu-open) {
       background-color: inherit;
       display: block;
       position: relative;
@@ -282,6 +261,13 @@ header {
       z-index: auto;
   }
 
+}
+
+/* Don't show subscribe button on mobile */
+@media (max-width: 550px) {
+  .curator-menu-row .wp-block-buttons, header .wp-block-buttons {
+    display: none;
+  }
 }
 
 /* Style poem blocks on the reading page */
