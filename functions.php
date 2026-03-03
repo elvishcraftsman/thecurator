@@ -314,16 +314,4 @@ function curator_enqueue_styles() {
 
 add_action( 'wp_enqueue_scripts', 'curator_enqueue_styles' );
 
-function github_enqueue_styles() {
-    wp_enqueue_style(
-        'github-theme-css',
-        'https://raw.githubusercontent.com/elvishcraftsman/thecurator/main/style.css',
-        [],
-        null
-    );
-}
-
-add_action( 'wp_enqueue_scripts', 'github_enqueue_styles', 100 );
-add_action( 'enqueue_block_editor_assets', 'github_enqueue_styles', 100 );
-
 ?>
