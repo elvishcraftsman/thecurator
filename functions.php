@@ -14,7 +14,7 @@ function get_post_element_content ( $post, $id, $fallback_tag ) {
 
     $doc = new DOMDocument();
     $doc->loadHTML( $post->post_content );
-    $element = $doc->getElementByID( $id )->textContent;
+    $element = $doc->getElementByID( $id );
 
     if ( is_null($element) ) {
 
@@ -69,7 +69,7 @@ function curator_latest_post_shortcode( $atts ) {
 
     $posts = get_posts( array ( 'numberposts' => 1, 'category' => 'weekly-poems', ) );
 
-    $ouput = '';
+    $output = '';
 
     foreach ( $posts as $post ) {
 		$post_link = esc_url( get_permalink( $post ) );
@@ -146,6 +146,78 @@ function curator_latest_post_shortcode( $atts ) {
 
 add_shortcode( 'curator_latest_post', 'curator_latest_post_shortcode' );
 
+
+/**
+ * Define custom shortcode for latest post by category
+ */
+function curator_latest_from_shortcode($attributes) {
+
+    $output = '';
+
+	$attributes = shortcode_atts(array(
+		'from' => 'posts',
+	), $attributes);
+
+    $category = term_exists($attributes['from'], 'category');
+	if (is_array( $category)) {
+		$category = $category['term_id'];
+	}
+
+    $posts = get_posts(array('numberposts' => 1, 'category' => $category,));
+
+    foreach ($posts as $post) {
+
+        $image_id = get_post_thumbnail_id($post);
+
+        $featured_image = get_the_post_thumbnail_url($post, "large");
+
+        $title = get_post_element_content($post, 'title', 'h2');
+
+        $author = get_post_element_content($post, 'author', 'h3');
+
+        if ($author == '') {
+            $author = get_post_element_content($post, 'author', 'h6');
+        }
+
+        if ($author == '') {
+            $author = get_post_element_content($post, 'author', 'i');
+        }
+
+        $author = trim($author);
+
+        if (str_starts_with($author, 'by ')) {
+            $author = substr($author, 3);
+        }
+
+        $output .= sprintf(
+'<figure class="wp-block-image size-full">
+    <img class="wp-image-%1$s" alt="" width="550" src="%2$s" style="aspect-ratio:3/2;object-fit:cover">
+</figure>',
+            $image_id,
+            $featured_image
+        );
+
+        $output .= sprintf(
+'<h3 class="wp-block-heading has-text-align-center has-medium-font-size" style="margin-top:var(--wp--preset--spacing--30);margin-bottom:0">
+    %1$s
+</h3>',
+            $title
+        );
+
+        $output .= sprintf(
+'<p class="has-text-align-center has-montserrat-font-family has-small-font-size">
+    <em>by %1$s</em>
+</p>',
+            $author
+        );
+
+    }
+
+    return $output;
+
+}
+
+add_shortcode('curator_latest_from', 'curator_latest_from_shortcode');
 
 /**
  * Define custom rendering function for post excerpt block
