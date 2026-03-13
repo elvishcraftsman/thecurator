@@ -38,7 +38,9 @@ function get_post_element_content ( $post, $id, $fallback_tag ) {
  */
 function curator_post_excerpt ( $post ) {
 
-    $content = $post->post_content;
+    $content = preg_replace('#<!-- /?wp.* -->#', '', $post->post_content );
+
+    $content = wpautop( $content );
 
     $header_end = strpos( $content, '<p' );
 
@@ -46,7 +48,11 @@ function curator_post_excerpt ( $post ) {
         $header_end = 0;
     }
 
-    $excerpt_end = strpos( $content, '<!--more-->');
+    $excerpt_end = strpos( $content, '<p><!--more-->');
+
+    if ( $excerpt_end === false ) {
+        $excerpt_end = strpos( $content, '<!--more-->');
+    }
 
     if ( $excerpt_end === false || $excerpt_end < $header_end ) {
         $excerpt_end = $header_end + 1;
@@ -65,80 +71,88 @@ function curator_post_excerpt ( $post ) {
 /**
  * Define custom latest post shortcode
  */
-function curator_latest_post_shortcode( $atts ) {
+function curator_latest_post_shortcode( $attributes ) {
 
-    $posts = get_posts( array ( 'numberposts' => 1, 'category' => 'weekly-poems', ) );
+	$attributes = shortcode_atts(array(
+		'number' => 1,
+	), $attributes);
+
+    $category = term_exists('weekly-poems', 'category');
+	if (is_array( $category)) {
+		$category = $category['term_id'];
+	}
+
+    $posts = get_posts( array ( 'numberposts' => $attributes['number'], 'category' => $category, ) );
 
     $output = '';
 
-    foreach ( $posts as $post ) {
-		$post_link = esc_url( get_permalink( $post ) );
+    $post = array_last($posts);
 
-        $image_id = get_post_thumbnail_id( $post );
+    $post_link = esc_url( get_permalink( $post ) );
 
-        $featured_image = get_the_post_thumbnail_url( $post, "large" );
+    $image_id = get_post_thumbnail_id( $post );
 
-        $title = get_post_element_content( $post, 'title', 'h2' );
+    $featured_image = get_the_post_thumbnail_url( $post, "large" );
 
-        $author = get_post_element_content( $post, 'author', 'h3' );
+    $title = get_post_element_content( $post, 'title', 'h2' );
 
-        if ( $author == '' ) {
-            $author = get_post_element_content( $post, 'author', 'h6' );
-        }
+    $author = get_post_element_content( $post, 'author', 'h3' );
 
-        $author = trim($author);
+    if ( $author == '' ) {
+        $author = get_post_element_content( $post, 'author', 'h6' );
+    }
 
-        if ( str_starts_with( $author, 'by ' ) ) {
-            $author = substr( $author, 3 );
-        }
+    $author = trim($author);
 
-        $excerpt = wpautop( curator_post_excerpt( $post ) );
+    if ( str_starts_with( $author, 'by ' ) ) {
+        $author = substr( $author, 3 );
+    }
 
-        $excerpt = str_replace( '<p>', 
-            sprintf( '<blockquote class="has-text-align-center" cite="%1$s">', $post_link ),
-            $excerpt
-        );
-        $excerpt = str_replace( '</p>', '</blockquote>', $excerpt );
-    
-        $caption = sprintf('<figcaption class="has-text-align-center">
-                <cite>"%1$s"</cite> by %2$s
-            </figcaption>',
-            $title,
-            $author
-        );
+    $excerpt = curator_post_excerpt( $post );
 
-        $output .= '<div class="wp-block-cover is-light curator-latest-post" style="min-height:20em">
-        <span aria-hidden="true" class="wp-block-cover__background has-white-background-color has-background-dim-70 has-background-dim"></span>';
+    $excerpt = str_replace( '<p>', 
+        sprintf( '<blockquote class="has-text-align-center" cite="%1$s">', $post_link ),
+        $excerpt
+    );
+    $excerpt = str_replace( '</p>', '</blockquote>', $excerpt );
 
-        $output .= sprintf(
-            '<img class="wp-block-cover__image-background wp-image-%2$s" alt="" src="%1$s" data-object-fit="cover"/>',
-            $featured_image,
-            $image_id
-        );
+    $caption = sprintf('<figcaption class="has-text-align-center">
+            <cite>"%1$s"</cite> by %2$s
+        </figcaption>',
+        $title,
+        $author
+    );
 
-        $output .= '<div class="wp-block-cover__inner-container">';
+    $output .= '<div class="wp-block-cover is-light curator-latest-post" style="min-height:20em;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70);">
+    <span aria-hidden="true" class="wp-block-cover__background has-white-background-color has-background-dim-80 has-background-dim"></span>';
 
-        $output .= '<figure>';
-        $output .= $excerpt;
-        $output .= $caption;
-        $output .= '</figure>';
+    $output .= sprintf(
+        '<img class="wp-block-cover__image-background wp-image-%2$s" alt="" src="%1$s" data-object-fit="cover"/>',
+        $featured_image,
+        $image_id
+    );
 
-        $output .= '<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-1 wp-block-buttons-is-layout-flex">
-            <div class="wp-block-button">';
+    $output .= '<div class="wp-block-cover__inner-container">';
 
-        $output .= sprintf(
-            '<a class="wp-block-button__link has-text-align-center wp-element-button" href="%1$s">
-                    Read more
-                </a>',
-            $post_link
-        );
+    $output .= '<figure>';
+    $output .= $excerpt;
+    $output .= $caption;
+    $output .= '</figure>';
 
-        $output .= '            </div>
+    $output .= '<div class="wp-block-buttons is-content-justification-center is-layout-flex wp-container-core-buttons-is-layout-1 wp-block-buttons-is-layout-flex">
+        <div class="wp-block-button">';
+
+    $output .= sprintf(
+        '<a class="wp-block-button__link has-text-align-center wp-element-button" href="%1$s">
+                Read more
+            </a>',
+        $post_link
+    );
+
+    $output .= '            </div>
         </div>
     </div>
 </div>';
-
-    }
 
 	return $output;
 
@@ -231,7 +245,8 @@ function curator_render_excerpt_block($attributes, $content, $block) {
     $post = get_post($block->context['postId']);
     
     $content = $post->post_content;
-    
+    $content = preg_replace('#</p>\s*<!-- /wp:paragraph -->\s*<!-- wp:more -->\s*<!--more-->\s*<!-- /wp:more -->\s*<!-- wp:paragraph -->\s*<p>#', 
+                            '<br>', $content);
     $content = preg_replace('#<!--.*-->#', '', $content);
     $content = str_replace('<h6', '<p><i', $content);
     $content = str_replace('</h6>', '</i></p>', $content);
