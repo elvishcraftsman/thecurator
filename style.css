@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.51
+Version: 1.0.67
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -289,8 +289,40 @@ body .curator-reading-poem-block {
 
 /* Style custom carousel block from Carousel Slider Block plugin */
 .cb-carousel-block {
-  --wp--custom--carousel-block--navigation-color: var(--wp--preset--color--custom-curator-light-gra);
-  --wp--custom--carousel-block--navigation-hover-color: white;
+  --wp--custom--carousel-block--navigation-color: #dddddd;
+  --wp--custom--carousel-block--navigation-hover-color: #bbbbbb;
+  --wp--custom--carousel-block--navigation-size: 2rem;
+  --wp--custom--carousel-block--navigation-sides-offset: 20px;
+}
+
+/* Customize arrows on homepage carousel */
+.curator-home-carousel {
+
+  .cb-button-next {
+    color: #aaaaaa;
+    right: -36px;
+
+    &:hover {
+      color: #888888;
+    }
+
+    @media (max-width: 1080px) {
+      right: 20px;
+    }
+  }
+
+  .cb-button-prev {
+    color: #aaaaaa;
+    left: -36px;
+
+    &:hover {
+      color: #888888;
+    }
+
+    @media (max-width: 1080px) {
+      left: 20px;
+    }
+  }
 }
 
 /* Modify the navigation arrows for the weekly poem gallery on the reading page */
