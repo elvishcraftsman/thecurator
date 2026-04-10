@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.67
+Version: 1.0.72
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -94,58 +94,69 @@ body .curator-home-column {
 }
 
 /* Style the sign-up forms */
-.grid-2-column {
-  display: grid;
-  grid-template-columns: auto auto;
-  gap: min(1.2vw, 12.6px);
-  background-color: transparent;
-  padding: 0px;
+form.subscribe-form {
 
-  @media (max-width: 781px) {
-    &.grid-stack-on-mobile {
-      grid-template-columns: auto;
+  .grid-2-column {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: min(1.2vw, 12.6px);
+    background-color: transparent;
+    padding: 0px;
+
+    @media (max-width: 781px) {
+      &.grid-stack-on-mobile {
+        grid-template-columns: auto;
+      }
     }
   }
-}
-.grid-item-2-column-span {
-  grid-column: 1 / span 2;
-}
-input[type="text"], input[type="email"] {
-  width: 100%;
-  border-style: solid;
-  border-width: 1.5px;
-  border-radius: 0.4em;
-  outline-style: none;
-  font-family: Montserrat, sans-serif;
-  font-size: min(1.3vw, 0.86rem);
-  padding: 0.15em;
-  padding-inline-start: 0.4em;
-}
-input[type="checkbox"] {
-  height: min(1.7vw, 1.1rem);
-  width: min(1.7vw, 1.1rem);
-  margin: 0px;
-  margin-inline-end: min(1vw, 0.67rem);
-}
-input[type="submit"] {
-  padding: 0.38em 0.76em;
-  font-size: min(1.3vw, 0.86rem);
-  border-radius: 0.38em;
-}
-.mc-field-group {
-  display: flex;
-  align-items: center;
-  height: min(2.4vw, 1.56rem);
-}
-.input-group {
-  height: min(1.7vw, 1.1rem);
-}
-.clear.foot {
-  display: flex;
-}
-label {
-  font-family: Montserrat, sans-serif;
-  font-size: min(1.3vw, 0.86rem);
+
+  .grid-item-2-column-span {
+    grid-column: 1 / span 2;
+  }
+
+  input[type="text"], input[type="email"] {
+    width: 100%;
+    border-style: solid;
+    border-width: 1.5px;
+    border-radius: 0.4em;
+    outline-style: none;
+    font-family: Montserrat, sans-serif;
+    font-size: min(1.3vw, 0.86rem);
+    padding: 0.15em;
+    padding-inline-start: 0.4em;
+  }
+
+  input[type="checkbox"] {
+    height: min(1.7vw, 1.1rem);
+    width: min(1.7vw, 1.1rem);
+    margin: 0px;
+    margin-inline-end: min(1vw, 0.67rem);
+  }
+
+  input[type="submit"] {
+    padding: 0.38em 0.76em;
+    font-size: min(1.3vw, 0.86rem);
+    border-radius: 0.38em;
+  }
+
+  .mc-field-group {
+    display: flex;
+    align-items: center;
+    height: min(2.4vw, 1.56rem);
+  }
+
+  .input-group {
+    height: min(1.7vw, 1.1rem);
+  }
+
+  .clear.foot {
+    display: flex;
+  }
+
+  label {
+    font-family: Montserrat, sans-serif;
+    font-size: min(1.3vw, 0.86rem);
+  }
 }
 
 /* Styles the latest post feature on the home page */
@@ -177,35 +188,38 @@ body .curator-latest-post cite {
 
 @media (max-width: 781px) {
   
-  input[type="text"], input[type="email"] {
-    font-size: 2.5vw;
-  }
+  form.subscribe-form {
 
-  input[type="checkbox"] {
-    height: 3.4vw;
-    width: 3.4vw;
-    margin: 0px;
-    margin-inline-end: 2vw;
-  }
+    input[type="text"], input[type="email"] {
+      font-size: 2.5vw;
+    }
 
-  input[type="submit"] {
-    font-size: 2.6vw;
-  }
+    input[type="checkbox"] {
+      height: 3.4vw;
+      width: 3.4vw;
+      margin: 0px;
+      margin-inline-end: 2vw;
+    }
 
-  .mc-field-group {
-    height: 4.8vw;
-  }
+    input[type="submit"] {
+      font-size: 2.6vw;
+    }
 
-  .input-group {
-    height: 3.4vw;
-  }
+    .mc-field-group {
+      height: 4.8vw;
+    }
 
-  label {
-    font-size: 2.5vw;
-  }
+    .input-group {
+      height: 3.4vw;
+    }
 
-  .grid-2-column {
-    gap: 2.4vw;
+    label {
+      font-size: 2.5vw;
+    }
+
+    .grid-2-column {
+      gap: 2.4vw;
+    }
   }
 
   body .curator-latest-post {
@@ -344,4 +358,51 @@ p.poem-line {
   margin: 0 0 0 2em;
   text-indent: -2em;
   line-height: 1.5;
+}
+
+/* Style comments */
+div.wp-block-comments {
+  padding-bottom: 15px;
+
+  h3.comment-reply-title {
+    text-align: center;
+    color: white;
+    font-size: 1.5em;
+  }
+}
+
+/* Style comment forms */
+form.comment-form {
+  background-color: white;
+  padding: min(30px, 4vw);
+  margin: 15px;
+  border-radius: min(30px, 4vw);
+  box-shadow: var(--wp--preset--shadow--natural);
+
+  p.comment-form-comment label, p.logged-in-as {
+    font-family: var(--wp--preset--font-family--montserrat);
+    font-size: min(1em, 4vw);
+    margin: min(0.5em, 2vw);
+    color: var(--wp--preset--color--custom-curator-green);
+  }
+
+  textarea#comment {
+    margin-top: min(10px, 2vw);
+    border: none;
+    border-radius: min(10px, 2vw);
+    font-size: min(1em, 4vw);
+    background-color: var(--wp--preset--color--custom-curator-light-gra);
+    resize: none;
+  }
+
+  p.form-submit {
+    display: flex;
+    justify-content: center;
+
+    input#submit {
+      font-size: min(1em, 4vw);
+      padding: 0.5em 1em;
+      border-radius: 0.5em;
+    }
+  }
 }
