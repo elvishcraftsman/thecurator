@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.72
+Version: 1.0.75
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -379,7 +379,7 @@ form.comment-form {
   border-radius: min(30px, 4vw);
   box-shadow: var(--wp--preset--shadow--natural);
 
-  p.comment-form-comment label, p.logged-in-as {
+  p:not(.form-submit) {
     font-family: var(--wp--preset--font-family--montserrat);
     font-size: min(1em, 4vw);
     margin: min(0.5em, 2vw);
@@ -395,6 +395,13 @@ form.comment-form {
     resize: none;
   }
 
+  input:not(#submit) {
+    border: none;
+    border-radius: min(10px, 2vw);
+    font-size: min(1em, 4vw);
+    background-color: var(--wp--preset--color--custom-curator-light-gra);
+  }
+
   p.form-submit {
     display: flex;
     justify-content: center;
@@ -404,5 +411,12 @@ form.comment-form {
       padding: 0.5em 1em;
       border-radius: 0.5em;
     }
+  }
+
+  input[type="checkbox"] {
+    height: 1.5rem;
+    width: 1.5rem;
+    margin: 0px;
+    margin-inline-end: 0.25rem;
   }
 }
