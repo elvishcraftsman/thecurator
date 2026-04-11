@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.75
+Version: 1.0.76
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -175,6 +175,7 @@ body .curator-latest-post blockquote {
 
 /* Styles the latest post feature on the home page */
 body .curator-latest-post figcaption {
+  font-family: var(--wp--preset--font-family--libre-baskerville);
   font-size: min(1.5vw, 1.13rem);
   line-height: min(3vw, 2.25rem);
   font-weight: normal;
