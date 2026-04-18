@@ -7,13 +7,18 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.77
+Version: 1.0.81
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
 Tags: 
 */
 
+
+/* Allow the page width to be used as a container query unit */
+body {
+  container-type: inline-size;
+}
 
 /* Transform the last link in the block to apply to the entire block
    and apply a darkening effect on hover */
@@ -157,40 +162,9 @@ form.subscribe-form {
     font-family: Montserrat, sans-serif;
     font-size: min(1.3vw, 0.86rem);
   }
-}
 
-/* Styles the latest post feature on the home page */
-body .curator-latest-post {
-  border-radius: min(1vw, 10.5px);
-}
-
-/* Styles the latest post feature on the home page */
-body .curator-latest-post blockquote {
-  margin: 0px;
-  font-family: var(--wp--preset--font-family--montserrat);
-  font-size: min(2vw, 1.5rem);
-  line-height: 200%;
-  color: black;
-}
-
-/* Styles the latest post feature on the home page */
-body .curator-latest-post figcaption {
-  font-family: var(--wp--preset--font-family--libre-baskerville);
-  font-size: min(1.5vw, 1.13rem);
-  line-height: min(3vw, 2.25rem);
-  font-weight: normal;
-  color: black;
-}
-
-/* Styles the latest post feature on the home page */
-body .curator-latest-post cite {
-  font-style: normal;
-}
-
-@media (max-width: 781px) {
+  @media (max-width: 781px) {
   
-  form.subscribe-form {
-
     input[type="text"], input[type="email"] {
       font-size: 2.5vw;
     }
@@ -221,26 +195,91 @@ body .curator-latest-post cite {
     .grid-2-column {
       gap: 2.4vw;
     }
+
   }
 
-  body {
-    container-type: inline-size;
+}
 
-    .curator-home-carousel {
-      left: -17.72px;
-      width: 100cqw;
+/* Styles the latest post feature on the home page */
+body .curator-home-carousel {
+
+  .curator-latest-post {
+    border-radius: min(1vw, 10.5px);
+    font-size: min(2.3vw, 1.5rem);
+    min-height: min(75vw, 16.7em);
+
+    blockquote {
+      margin: 0px;
+      font-family: var(--wp--preset--font-family--montserrat);
+      line-height: 200%;
+      color: black;
     }
+  
+    figcaption {
+      font-family: var(--wp--preset--font-family--libre-baskerville);
+      font-size: 0.75em;
+      line-height: 240%;
+      font-weight: normal;
+      color: black;
+
+      cite {
+        font-style: normal;
+      }
+
+    }
+
+    .wp-element-button {
+      font-size: min(0.75em, 1rem);
+      padding: 0.5em 1.5em;
+      border-radius: 0.5em;
+    }
+
+  }
+
+  @media (max-width: 781px) {
+    left: -17.72px;
+    width: 100cqw;
 
     .curator-latest-post {
       border-radius: 0px;
-    }
-    
-    .curator-latest-post blockquote {
-      font-size: min(3.2vw, 1rem);
+      font-size: min(3.2vw, 1.1rem);
     }
 
-    .curator-latest-post figcaption {
-      font-size: min(2.6vw, 0.75rem);
+  }
+
+  .cb-button-next {
+    color: #aaaaaa;
+    right: -36px;
+    width: auto;
+
+    &:after {
+      font-size: min(5vw, 2rem);
+    }
+    
+    &:hover {
+      color: #888888;
+    }
+
+    @media (max-width: 1080px) {
+      right: 1.5vw;
+    }
+  }
+
+  .cb-button-prev {
+    color: #aaaaaa;
+    left: -36px;
+    width: auto;
+
+    &:after {
+      font-size: min(5vw, 2rem);
+    }
+
+    &:hover {
+      color: #888888;
+    }
+
+    @media (max-width: 1080px) {
+      left: 1.5vw;
     }
   }
 
@@ -317,36 +356,6 @@ body .curator-reading-poem-block {
   --wp--custom--carousel-block--navigation-hover-color: #bbbbbb;
   --wp--custom--carousel-block--navigation-size: 2rem;
   --wp--custom--carousel-block--navigation-sides-offset: 20px;
-}
-
-/* Customize arrows on homepage carousel */
-.curator-home-carousel {
-
-  .cb-button-next {
-    color: #aaaaaa;
-    right: -36px;
-
-    &:hover {
-      color: #888888;
-    }
-
-    @media (max-width: 1080px) {
-      right: 1.5vw;
-    }
-  }
-
-  .cb-button-prev {
-    color: #aaaaaa;
-    left: -36px;
-
-    &:hover {
-      color: #888888;
-    }
-
-    @media (max-width: 1080px) {
-      left: 1.5vw;
-    }
-  }
 }
 
 /* Modify the navigation arrows for the weekly poem gallery on the reading page */

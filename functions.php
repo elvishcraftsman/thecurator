@@ -123,7 +123,7 @@ function curator_latest_post_shortcode( $attributes ) {
         $author
     );
 
-    $output .= '<div class="wp-block-cover is-light curator-latest-post" style="min-height:20em;padding-top:var(--wp--preset--spacing--70);padding-bottom:var(--wp--preset--spacing--70);">
+    $output .= '<div class="wp-block-cover is-light curator-latest-post">
     <span aria-hidden="true" class="wp-block-cover__background has-white-background-color has-background-dim-80 has-background-dim"></span>';
 
     $output .= sprintf(
