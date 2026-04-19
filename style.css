@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.81
+Version: 1.0.82
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -250,7 +250,6 @@ body .curator-home-carousel {
   .cb-button-next {
     color: #aaaaaa;
     right: -36px;
-    width: auto;
 
     &:after {
       font-size: min(5vw, 2rem);
@@ -268,7 +267,6 @@ body .curator-home-carousel {
   .cb-button-prev {
     color: #aaaaaa;
     left: -36px;
-    width: auto;
 
     &:after {
       font-size: min(5vw, 2rem);
