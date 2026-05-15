@@ -44,6 +44,20 @@ function curator_post_excerpt ( $post ) {
 
     $header_end = strpos( $content, '<p' );
 
+    if ($header_end !== false) {
+
+        $first_p_close = strpos($content, '</', $header_end);
+
+        if ($first_p_close !== false && $first_p_close > $header_end) {
+
+            $first_p = substr($content, $header_end, $first_p_close - $header_end);
+
+            if (preg_match('#<p.*>\s*[Bb]y .*#', $first_p)) {
+                $header_end = strpos($content, '<p', $first_p_close);
+            }
+        }
+    }
+
     if ( $header_end === false ) {
         $header_end = 0;
     }
@@ -55,6 +69,44 @@ function curator_post_excerpt ( $post ) {
     }
 
     if ( $excerpt_end === false || $excerpt_end < $header_end ) {
+
+        $lines = 0;
+        $length = strlen($content) - 2;
+
+        for ($i = $header_end + 1; $i < $length; $i++) {
+            if ($content[$i] == '<') {
+                switch (substr($content, $i, 3)) {
+                    case '<h1':
+                    case '<h2':
+                    case '<h3':
+                    case '<h4':
+                    case '<h5':
+                    case '<h6':
+                    case '<br':
+                        $lines++;
+                        break;
+                    case '<p ':
+                    case '<p>':
+                    case '<li':
+                        $lines += 2;
+                        break;
+                    case '<hr':
+                    case '<di':
+                    case '</d':
+                        $excerpt_end = $i;
+                        break;
+                }
+            }
+            if ($lines >= 4) {
+                $excerpt_end = $i;
+            }
+            if ($excerpt_end === $i) {
+                break;
+            }
+        }
+    }
+
+    if ( $excerpt_end === false ) {
         $excerpt_end = $header_end + 1;
     }
 
@@ -270,10 +322,16 @@ function curator_render_excerpt_block($attributes, $content, $block) {
 
 	$output = '';
 
+    $poem_start = strpos($content, '<h3');
+
+    if ($poem_start === false) {
+        $poem_start = 0;
+    }
+
     $lines = 0;
     $length = strlen($content) - 2;
 
-    for ($i = 0; $i < $length; $i++) {
+    for ($i = $poem_start; $i < $length; $i++) {
         if ($content[$i] == '<') {
             switch (substr($content, $i, 3)) {
                 case '<h1':
@@ -292,15 +350,16 @@ function curator_render_excerpt_block($attributes, $content, $block) {
                     break;
                 case '<hr':
                 case '<di':
+                case '</d':
 	                $output = '<div ' . $wrapper_attributes . '>';
-                    $output .= substr($content, 0, $i);
+                    $output .= substr($content, $poem_start, $i - $poem_start);
                     $output .= '</div>';
                     return $output;
                     break;
             }
         }
         if ($excerpt_length - $lines < 2) {
-            $output = substr($content, 0, $i);
+            $output = substr($content, $poem_start, $i - $poem_start);
         }
         if ($lines > $excerpt_length) {
             break;
