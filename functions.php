@@ -392,6 +392,36 @@ add_filter('register_block_type_args', function ($args, $block_type) {
 }, null, 3);
 
 
+/**
+ * Modifies the search block so that the search field appears after the button
+ */
+function curator_render_search_block($attributes) {
+    $content = render_block_core_search($attributes);
+    $input_start = strpos($content, '<input');
+    if ($input_start !== false) {
+        $button_start = strpos($content, '<button', $input_start);
+        if ($button_start !== false) {
+            $button_end = strpos($content, '</button>', $button_start);
+            if ($button_end !== false) {
+                $button_end += 9;
+                $content = substr($content, 0, $input_start) . 
+                           substr($content, $button_start, $button_end - $button_start) . 
+                           substr($content, $input_start, $button_start - $input_start) . 
+                           substr($content, $button_end);
+            }
+        }
+    }
+    return $content;
+}
+
+add_filter('register_block_type_args', function ($args, $block_type) {
+    if ($block_type == 'core/search') {
+        $args['render_callback'] = 'curator_render_search_block';
+    }
+    return $args;
+}, null, 3);
+
+
 /** 
  * Modify weekly poem posts so that each line is a separate paragraph, which is needed
  * for proper indentation
