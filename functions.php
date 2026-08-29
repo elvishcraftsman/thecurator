@@ -466,6 +466,37 @@ add_filter(
 
 
 /**
+ * Preload cover background images (to make the home page render faster)
+ */
+function preload_cover_images() {
+    global $post;
+    if (is_null($post)) {
+        return;
+    }
+    $urls = array();
+    $content = $post->post_content;
+    $offset = strpos($content, 'wp-block-cover__image-background');
+    while ($offset !== false) {
+        $url_start = strpos($content, 'src="', $offset);
+        if ($url_start !== false) {
+            $url_start += 5;
+            $url_end = strpos($content, '"', $url_start);
+            if ($url_end !== false) {
+                $urls[] = substr($content, $url_start, $url_end - $url_start);
+            }
+        }
+        $offset = strpos($content, 'wp-block-cover__image-background', $offset + 22);
+    }
+    foreach ($urls as $url) {
+        printf('<link rel="preload" as="image" href="%s"/>', esc_url($url));
+        print "\n";
+    }
+}
+
+add_action('wp_head', 'preload_cover_images');
+
+
+/**
  *  Change the "Read more" links
  */
 add_filter (
