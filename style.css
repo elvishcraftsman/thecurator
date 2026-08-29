@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.88
+Version: 1.0.91
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -26,9 +26,9 @@ body .curator-link-block {
   position: relative;
 
   &:hover {
-    outline: 2px solid #00000020;
+    scale: 101%;
 
-    h2, h3, p {
+    .curator-link-text {
       text-decoration: underline;
     }
   }
@@ -440,4 +440,9 @@ form.comment-form {
     margin: 0px;
     margin-inline-end: 0.25rem;
   }
+}
+
+/* Darken buttons on hover */
+body .wp-element-button:hover {
+  background-color: rgb(73, 97, 96);
 }
