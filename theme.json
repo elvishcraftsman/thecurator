@@ -152,6 +152,11 @@
 	"styles": {
 		"blocks": {
 			"core/button": {
+				":hover": {
+					"typography": {
+						"textDecoration": "underline"
+					}
+				},
 				"border": {
 					"radius": {
 						"bottomLeft": "6px",
