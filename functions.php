@@ -285,21 +285,24 @@ function curator_latest_from_shortcode($attributes) {
 
 add_shortcode('curator_latest_from', 'curator_latest_from_shortcode');
 
-/**
- * Define custom rendering function for post excerpt block
- * Uses the excerptLength field to determine the number of lines to display
- */
-function curator_render_excerpt_block($attributes, $content, $block) {
-    if (!isset($block->context['postId'])) {
-		return '';
-	}
 
-    $post = get_post($block->context['postId']);
-    
-    $content = $post->post_content;
+function curator_render_poem_excerpt($attributes, $content) {
+    $excerpt_length = $attributes['excerptLength'];
+    if (!isset($excerpt_length)) $excerpt_length = 10;
+    $compact = false;
+    if ($excerpt_length === 10) {
+        $excerpt_length = 3;
+        $compact = true;
+    }
+    $excerpt_length += 2;
+
     $content = preg_replace('#</p>\s*<!-- /wp:paragraph -->\s*<!-- wp:more -->\s*<!--more-->\s*<!-- /wp:more -->\s*<!-- wp:paragraph -->\s*<p>#', 
                             '<br>', $content);
     $content = preg_replace('#<!--.*-->#', '', $content);
+    if ($compact) {
+        $content = preg_replace('#<h(\d).*>[^<]*</h\1>#', '', $content);
+        $content = preg_replace('#<p.*author.*><i>[^<]*</i></p>#', '', $content);
+    }
     $content = str_replace('<h6', '<p><i', $content);
     $content = str_replace('</h6>', '</i></p>', $content);
     $content = str_replace('<h2', '<h3', $content);
@@ -307,9 +310,6 @@ function curator_render_excerpt_block($attributes, $content, $block) {
 
     $content = wpautop($content);
 
-    $excerpt_length = $attributes['excerptLength'];
-    if (!isset($excerpt_length)) $excerpt_length = 4;
-    $excerpt_length += 2;
 
 	$classes = array();
 	if (isset($attributes['textAlign'])) {
@@ -321,8 +321,11 @@ function curator_render_excerpt_block($attributes, $content, $block) {
 	$wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
 
 	$output = '';
-
-    $poem_start = strpos($content, '<h3');
+    
+    $poem_start = strpos($content, '<p');
+    if (!$compact) {
+        $poem_start = strpos($content, '<h3');
+    }
 
     if ($poem_start === false) {
         $poem_start = 0;
@@ -369,19 +372,82 @@ function curator_render_excerpt_block($attributes, $content, $block) {
     $output = curator_autop_poem($output);
     $output = str_replace('<h2', '<h3', $output);
     $output = str_replace('</h2>', '</h3>', $output);
-    $content = str_replace('<p>', '<p></p><p class="poem-line">', $content);
-    $content = preg_replace('#<br\s?/?>#', '</p><p class="poem-line">', $content);
+    $output = str_replace('<p>', '<p></p><p class="poem-line">', $output);
+    $output = preg_replace('#<br\s?/?>#', '</p><p class="poem-line">', $output);
+    $output = preg_replace('#</?\s*ol\s*>#', '', $output);
+    $output = preg_replace('#</?\s*li\s*>#', '', $output);
 
-    $pos = strpos($content, '<p></p><p class="poem-line"><i');
+    $pos = strpos($output, '<p></p><p class="poem-line"><i');
     if ($pos !== false) {
-        $content = substr_replace($content, '<p><i', $pos, 30);
+        $output = substr_replace($output, '<p><i', $pos, 30);
     }
 
-    $output = '<div ' . $wrapper_attributes . '>' . $output;
-    $output .= '<p><a href="' . esc_url(get_permalink($post)) . '">Read More</a></p>';
-    $output .= '</div>';
+    $output = '<div ' . $wrapper_attributes . '>' . $output . "</div>\n";
 
     return $output;
+}
+
+
+function curator_render_post_excerpt($attributes, $content) {
+    $content = preg_replace('#</p>\s*<!-- /wp:paragraph -->\s*<!-- wp:more -->\s*<!--more-->\s*<!-- /wp:more -->\s*<!-- wp:paragraph -->\s*<p>#', 
+                            '<br>', $content);
+    $content = preg_replace('#<!--.*-->#', '', $content);
+    $content = str_replace('<h6', '<p><i', $content);
+    $content = str_replace('</h6>', '</i></p>', $content);
+    $content = str_replace('<h2', '<h3', $content);
+    $content = str_replace('</h2>', '</h3>', $content);
+
+    $content = wpautop($content);
+
+    $excerpt_length = $attributes['excerptLength'];
+    if (!isset($excerpt_length)) $excerpt_length = 4;
+    $excerpt_length += 2;
+
+	$classes = array();
+	if (isset($attributes['textAlign'])) {
+		$classes[] = 'has-text-align-' . $attributes['textAlign'];
+	}
+	if (isset($attributes['style']['elements']['link']['color']['text'])) {
+		$classes[] = 'has-link-color';
+	}
+	$wrapper_attributes = get_block_wrapper_attributes(array('class' => implode(' ', $classes)));
+
+	$output = '';
+
+    $post_start = strpos($content, '<p');
+    $post_end = strpos($content, '</p>');
+
+    if ($post_start === false || $post_end === false || $post_end <= $post_start) {
+        return '';
+    }
+    $output = substr($content, $post_start, $post_end - $post_start);
+
+    $output = '<div ' . $wrapper_attributes . '>' . $output . "</div>\n";
+
+    return $output;
+}
+
+
+/**
+ * Define custom rendering function for post excerpt block
+ * Uses the excerptLength field to determine the number of lines to display
+ */
+function curator_render_excerpt_block($attributes, $content, $block) {
+    if (!isset($block->context['postId'])) {
+		return '';
+	}
+
+    $id = $block->context['postId'];
+    $post = get_post($id);
+    $content = $post->post_content;
+    
+    foreach (get_the_category($id) as $category) {
+        if ($category->slug == 'weekly-poems') {
+            return curator_render_poem_excerpt($attributes, $content);
+        }
+    }
+    
+    return curator_render_post_excerpt($attributes, $content);;
 }
 
 add_filter('register_block_type_args', function ($args, $block_type) {
