@@ -7,7 +7,7 @@ Description: Theme for www.thecurator.org
 Requires at least: 6.8
 Tested up to: 6.8
 Requires PHP: 5.7
-Version: 1.0.96
+Version: 1.1.5
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: curator-parent
@@ -356,22 +356,55 @@ body .curator-reading-poem-block {
   --wp--custom--carousel-block--navigation-sides-offset: 20px;
 }
 
-/* Modify the navigation arrows for the poem pages */
+/* Modify the navigation arrows for the poem and blog pages */
 div.wp-block-post-navigation-link {
   
   &.post-navigation-link-previous a {
     content: url("data:image/svg+xml,%3Csvg width='22' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='20,2 2,20 20,38' stroke='%23aaaaaa' fill='transparent' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+  
+    @media (max-width: 550px) {
+      height: 30px;
+    }
   }
 
   &.post-navigation-link-next a {
     content: url("data:image/svg+xml,%3Csvg width='22' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='2,2 20,20 2,38' stroke='%23aaaaaa' fill='transparent' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E");
+    
+    @media (max-width: 550px) {
+      height: 30px;
+    }
   }
 }
 div.curator-poem-navigation {
-    margin: 0px max(5px, calc(50vw - var(--wp--style--global--content-size) / 2 - 44px)) !important;
-    max-width: unset;
-    position: sticky;
-    bottom: calc(50vh - 40px);
+  margin: 0px max(5px, calc(50vw - var(--wp--style--global--content-size) / 2 - 44px)) !important;
+  max-width: unset;
+  position: sticky;
+  bottom: calc(50vh - 40px);
+}
+div.curator-blog-navigation {
+  margin: 0px max(5px, calc(50vw - 414px)) !important;
+  max-width: unset;
+  position: sticky;
+  bottom: calc(50vh - 40px);
+}
+
+/* Style poem, blog, and story posts for mobile */
+div.curator-post-container {
+  @media (max-width: 550px) {
+    padding: 0 !important;
+
+    div.curator-post-block {
+      border-radius: 0 !important;
+
+      .wp-block-post-featured-image img {
+        border-radius: 0 !important;
+      }
+    }
+
+    div.curator-post-text {
+      padding: 24px 30px !important;
+    }
+  }
 }
 
 /* Style lines of poetry */
