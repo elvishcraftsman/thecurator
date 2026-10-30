@@ -186,6 +186,11 @@
 				"typography": {
 					"fontFamily": "var(--wp--preset--font-family--montserrat)"
 				}
+			},
+			"core/paragraph": {
+				"typography": {
+					"lineHeight": "1.5"
+				}
 			}
 		},
 		"css": "",
