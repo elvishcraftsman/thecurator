@@ -422,11 +422,56 @@ function curator_render_post_excerpt($attributes, $content) {
     }
     $output = substr($content, $post_start, $post_end - $post_start);
 
+    if (preg_match("#<p.*>\s*by #", $output)) {
+        $post_start = strpos($content, '<p', $post_end);
+        $post_end = strpos($content, '</p>', $post_start);
+        if ($post_start !== false && $post_end !== false) {
+            $output = substr($content, $post_start, $post_end - $post_start);
+        }
+    }
+
+    if (strlen($output) > 110) {
+        $post_end = strpos($output, ' ', 90);
+        if ($post_end !== false) {
+            $output = close_tags(substr($output, 0, $post_end) . '...');
+        } else {
+            $output = close_tags(substr($output, 0, 100) . '...');
+        }
+    }
+
     $output = '<div ' . $wrapper_attributes . '>' . $output . "</div>\n";
 
     return $output;
 }
 
+
+/**
+ * Search the string for open HTML tags, and add closing tags if necessary
+ */
+function close_tags($string) {
+    $tags = [];
+    $matches = [];
+    $index = 0;
+    while (preg_match('#<(/|[^\s>]+)\s*([^\s>]*)[^>]*>#', $string, $matches, PREG_OFFSET_CAPTURE, $index)) {
+        $index = $matches[0][1];
+        if ($matches[1][0] === '/' && count($matches) > 2) {
+            $last = array_pop($tags);
+            while ($matches[2][0] !== $last && strlen($last) > 0) {
+                $tag = '</' . $last . '>';
+                $string = substr($string, 0, $index) . $tag . substr($string, $index);
+                $index += strlen($tag);
+                $last = array_pop($tags);
+            }
+        } else {
+            $tags[] = $matches[1][0];
+        }
+        $index++;
+    }
+    while (count($tags)) {
+        $string .= '</' . array_pop($tags) . '>';
+    }
+    return $string;
+}
 
 /**
  * Define custom rendering function for post excerpt block
