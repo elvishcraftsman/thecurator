@@ -382,6 +382,7 @@ function curator_render_poem_excerpt($attributes, $content) {
         $output = substr_replace($output, '<p><i', $pos, 30);
     }
 
+    $output = close_tags($output);
     $output = '<div ' . $wrapper_attributes . '>' . $output . "</div>\n";
 
     return $output;
@@ -547,13 +548,24 @@ function curator_autop_poem($content) {
     }
 
     $content = preg_replace('#<!--\s?.*\s?-->#', '', $content);
-    $content = str_replace('<h6', '<p><i', $content);
-    $content = str_replace('</h6>', '</i></p>', $content);
+    $pos = strpos($content, '<h6');
+    if ($pos !== false) {
+        $content = substr_replace(
+            $content,
+            '<p class="has-montserrat-font-family wp-block-paragraph" id="author" style="margin-top:0;margin-bottom:0"><i', 
+            $pos,
+            3
+        );
+        $pos = strpos($content, '</h6>', $pos);
+        if ($pos !== false) {
+            $content = substr_replace($content, '</i></p>', $pos, 5);
+        }
+    }
 
     $content = wpautop($content);
 
     $content = str_replace('<p>', '<p></p><p class="poem-line">', $content);
-    $content = preg_replace('#<br\s?/?>#', '</p><p class="poem-line">', $content);
+    $content = preg_replace('#<br\s*/?>#', '</p><p class="poem-line">', $content);
 
     $pos = strpos($content, '<p></p><p class="poem-line"><i');
     if ($pos !== false) {
@@ -563,12 +575,137 @@ function curator_autop_poem($content) {
     return $content . $credits;
 }
 
+
+/**
+ * Render poems that were made with the classic editor
+ */
+function curator_render_poem_content($content) {
+    // Ignore queries and poems made with the block editor
+    $pos = strpos($content, '<div class=');
+    if (!is_single() || $pos !== false) {
+        return curator_autop_poem($content);
+    }
+
+    // Get featured image
+    $featured_image = get_the_post_thumbnail_url(null, "large");
+
+    // Get poem text
+    $poem = $content;
+    $pos = strpos($content, '<hr');
+    if ($pos === false || strpos($content, '<img', $pos) === false) {
+        $pos = strpos($content, '<img');
+    }
+    if ($pos !== false) {
+        $poem = substr($content, 0, $pos);
+    }
+    $poem = curator_autop_poem($poem);
+
+    // Get author image
+    $author_image = '';
+    $pos = strpos($content, '<img');
+    if ($pos !== false) {
+        $pos = strpos($content, 'src="', $pos);
+    }
+    if ($pos !== false) {
+        $pos += 5;
+        $end = strpos($content, '"', $pos);
+        $author_image = substr($content, $pos, $end - $pos);
+    }
+
+    // Get bio
+    $bio = '';
+    if ($pos !== false) {
+        $pos = strpos($content, '>', $pos);
+    }
+    if ($pos === false) {
+        $pos = strpos($content, '<hr');
+        if ($pos !== false) {
+            $pos = strpos($content, '>', $pos);
+        }
+    }
+    if ($pos !== false) {
+        $bio = substr($content, $pos + 1);
+    }
+
+    // Get photo credits
+    $credits = '';
+    if ($bio) {
+        $pos = strpos($bio, '<hr');
+        if ($pos !== false) {
+            $credits = substr($bio, $pos);
+            $bio = substr($bio, 0, $pos);
+        }
+    }
+
+    // Get links to adjacent posts
+    $next = get_next_post_link('%link', '%title', true, [get_cat_ID('blog')]);
+    $prev = get_previous_post_link('%link', '%title', true, [get_cat_ID('blog')]);
+
+    $content = '
+<div class="wp-block-group has-custom-curator-light-gra-background-color has-background has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
+  <div class="wp-block-group curator-post-container is-layout-flow wp-block-group-is-layout-flow" style="padding-right:var(--wp--preset--spacing--60);padding-left:var(--wp--preset--spacing--60)">
+    <div class="wp-block-group curator-post-block has-custom-white-background-color has-background is-vertical is-content-justification-stretch is-nowrap is-layout-flex wp-block-group-is-layout-flex" style="flex-wrap:nowrap;gap:0;flex-direction:column;align-items:stretch;border-top-left-radius:30px;border-top-right-radius:30px;border-bottom-left-radius:30px;border-bottom-right-radius:30px;margin-top:var(--wp--preset--spacing--40);margin-bottom:var(--wp--preset--spacing--40);box-shadow:var(--wp--preset--shadow--natural)">
+';
+    
+    if ($featured_image) {
+        $content .= '
+      <figure class="wp-block-post-featured-image">
+        <img src="' . $featured_image .
+          '" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" style="height:auto;max-height:calc(min(100vw - 86px,548px)*0.75);max-width:100%;width:100%;border-top-left-radius:30px;border-top-right-radius:30px;object-fit:cover;" />
+      </figure>
+';
+    }
+
+    $content .= '
+      <div class="wp-block-group curator-post-text is-layout-flow wp-block-group-is-layout-flow" style="padding-top:var(--wp--preset--spacing--50);padding-right:var(--wp--preset--spacing--50);padding-bottom:var(--wp--preset--spacing--50);padding-left:var(--wp--preset--spacing--50)">
+        ' . $poem . '
+      </div>
+    </div>
+';
+
+    if ($bio) {
+        $content .= '
+    <div class="wp-block-group curator-post-block curator-post-text has-custom-white-background-color has-background has-global-padding is-layout-constrained wp-block-group-is-layout-constrained" style="flex-wrap:nowrap;justify-content:flex-start;border-top-left-radius:30px;border-top-right-radius:30px;border-bottom-left-radius:30px;border-bottom-right-radius:30px;margin-top:var(--wp--preset--spacing--40);margin-bottom:var(--wp--preset--spacing--40);padding:var(--wp--preset--spacing--50);box-shadow:var(--wp--preset--shadow--natural)">
+      <div class="wp-block-group is-content-justification-center is-nowrap is-layout-flex wp-block-group-is-layout-flex" style="flex-wrap:nowrap;gap:var(--wp--preset--spacing--30);justify-content:center;">
+        <figure class="wp-block-image size-full has-custom-border is-style-rounded" style="flex-basis:25%;flex-shrink:0;">
+          <img src ="' . $author_image . '" alt="" class="has-border-color has-custom-curator-rose-border-color" style="border-width:4px;aspect-ratio:1;object-fit:cover"/>
+        </figure>
+        <div style="flex-basis:75%;flex-shrink:1;">
+' . $bio . '
+        </div>
+      </div>
+' . $credits . '
+    </div>
+';
+    }
+
+    $content .= '
+  </div>
+  <div class="wp-block-group curator-poem-navigation is-content-justification-space-between is-nowrap is-layout-flex wp-block-group-is-layout-flex" style="flex-wrap:nowrap;justify-content:space-between;">
+    <div class="post-navigation-link-previous wp-block-post-navigation-link">';
+    if ($prev !== '') {
+        $content .= $prev;
+    }
+    $content .= '
+    </div>
+    <div class="post-navigation-link-next wp-block-post-navigation-link">';
+    if ($next !== '') {
+        $content .= $next;
+    }
+    $content .= '
+    </div>
+  </div>
+</div>';
+
+    return $content;
+}
+
 add_filter(
     'the_content',
     function ($content) {
         foreach (get_the_category() as $category) {
             if ($category->slug == 'weekly-poems') {
-                return curator_autop_poem($content);
+                $content = curator_render_poem_content($content);
             }
         }
         return $content;
