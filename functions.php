@@ -464,10 +464,7 @@ function close_tags($string) {
                 $last = array_pop($tags);
             }
         } else {
-            $tag = $matches[1][0];
-            if ($tag != 'br') {
-                $tags[] = $tag;
-            }
+            $tags[] = $matches[1][0];
         }
         $index++;
     }
